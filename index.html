@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMY - Multijugador</title>
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+body{
+overflow:hidden;
+background:radial-gradient(circle at top,#0f172a,#020617 70%);
+touch-action:none;
+}
+canvas{
+display:block;
+image-rendering:auto;
+}
+#hud{
+position:fixed;
+top:15px;
+left:15px;
+padding:15px;
+background:rgba(0,0,0,.45);
+color:white;
+border-radius:15px;
+backdrop-filter:blur(5px);
+z-index:50;
+}
+#leaderboard{
+position:fixed;
+top:15px;
+right:15px;
+padding:15px;
+background:rgba(0,0,0,.45);
+color:white;
+border-radius:15px;
+width:220px;
+z-index:50;
+}
+#map{
+position:fixed;
+bottom:20px;
+right:20px;
+background:rgba(0,0,0,.4);
+border-radius:12px;
+z-index:50;
+}
+#joystickBase{
+position:fixed;
+left:30px;
+bottom:30px;
+width:140px;
+height:140px;
+border-radius:50%;
+background:rgba(255,255,255,.08);
+border:2px solid rgba(255,255,255,.2);
+z-index:100;
+}
+#joystick{
+position:absolute;
+left:40px;
+top:40px;
+width:60px;
+height:60px;
+border-radius:50%;
+background:rgba(255,255,255,.45);
+}
+#gameOver{
+position:fixed;
+inset:0;
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:rgba(0,0,0,.85);
+color:white;
+z-index:999;
+}
+#gameOver h1{
+font-size:48px;
+margin-bottom:20px;
+}
+#gameOver p{
+font-size:24px;
+margin-bottom:30px;
+}
+button{
+padding:12px 25px;
+border:none;
+border-radius:12px;
+background:#2563eb;
+color:white;
+font-size:18px;
+margin-top:15px;
+cursor:pointer;
+}
+button:hover{
+background:#1d4ed8;
+}
+#connectionStatus{
+position:fixed;
+top:15px;
+left:50%;
+transform:translateX(-50%);
+padding:10px 20px;
+background:rgba(0,0,0,.6);
+border-radius:8px;
+color:white;
+z-index:50;
+font-size:14px;
+}
+#connectionStatus.connected{
+color:#22c55e;
+}
+#connectionStatus.disconnected{
+color:#ef4444;
+}
+</style>
+</head>
+<body>
+<div id="connectionStatus" class="disconnected">Conectando...</div>
+<div id="hud">
+<div>⭐ Score: <span id="score">0</span></div>
+<div>🐍 Size: <span id="size">20</span></div>
+<div>❤️ Lives: <span id="lives">3</span></div>
+<div>🏅 Level: <span id="level">1</span></div>
+<div>🔥 Combo: <span id="combo">0</span></div>
+<div>⚡ Boost: SPACE</div>
+<div>💨 Dash: SHIFT</div>
+</div>
+<div id="leaderboard">
+<h3>🏆 Ranking Global</h3>
+<div id="board"></div>
+</div>
+<canvas id="map" width="220" height="220"></canvas>
+<div id="joystickBase">
+<div id="joystick"></div>
+</div>
+<div id="gameOver">
+<h1>💀 GAME OVER</h1>
+<p id="gameOverMsg">Tu serpiente fue destruida</p>
+<button onclick="location.reload()">Reiniciar</button>
+</div>
+
+<button id="pauseBtn" style="position:fixed;top:15px;left:260px;z-index:1000;padding:10px 15px;">⏸ Pausa</button>
+<button id="musicBtn" style="position:fixed;top:15px;left:380px;z-index:1000;padding:10px 15px;">🔊 Música</button>
+<audio id="eatSound" preload="auto">
+<source src="https://actions.google.com/sounds/v1/cartoon/pop.ogg" type="audio/ogg">
+</audio>
+<audio id="bgMusic" autoplay loop>
+<source src="https://actions.google.com/sounds/v1/ambiences/bird_forest_ambience.ogg" type="audio/ogg">
+</audio>
+
+<canvas id="game"></canvas>
+<script src="js/config.js"></script>
+<script src="js/websocket.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
